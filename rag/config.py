@@ -1,5 +1,10 @@
-from pathlib import Path
 import re
+import os
+from pathlib import Path
+
+from dotenv import load_dotenv
+
+load_dotenv()
 
 API_URL = "https://export.arxiv.org/api/query"
 
@@ -100,7 +105,7 @@ SECTION_PATTERN = re.compile(
 
     \s*$
     """,
-    re.IGNORECASE | re.VERBOSE
+    re.IGNORECASE | re.VERBOSE,
 )
 
 CHROMA_DIR = Path("data/chroma_db")
@@ -109,7 +114,7 @@ COLLECTION_NAME = "arxiv_articles"
 
 OPENROUTER_MODEL = "text-embedding-3-small"
 
-OPENROUTER_API_KEY = "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"
+OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 
 OPENROUTER_EMBEDDING_DIMENSIONS = 1024
 

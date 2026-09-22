@@ -1,7 +1,7 @@
 from ..embeddings.openrouter import OpenRouterEmbeddings
 
-class Retriever:
 
+class Retriever:
     def __init__(self, collection, embedding_model: OpenRouterEmbeddings):
         self.collection = collection
         self.embedding_model = embedding_model
@@ -11,8 +11,7 @@ class Retriever:
         query_embedding = self.embedding_model.embed_query(query)
 
         results = self.collection.query(
-            query_embeddings=[query_embedding],
-            n_results=top_k
+            query_embeddings=[query_embedding], n_results=top_k
         )
 
         retrieved_chunks = []
@@ -21,15 +20,9 @@ class Retriever:
         metadatas = results["metadatas"][0]
         distances = results["distances"][0]
 
-        for document, metadata, distance in zip(
-            documents,
-            metadatas,
-            distances
-        ):
-            retrieved_chunks.append({
-                "text": document,
-                "metadata": metadata,
-                "distance": distance
-            })
+        for document, metadata, distance in zip(documents, metadatas, distances):
+            retrieved_chunks.append(
+                {"text": document, "metadata": metadata, "distance": distance}
+            )
 
         return retrieved_chunks

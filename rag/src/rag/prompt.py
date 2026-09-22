@@ -1,14 +1,11 @@
 
-from ...config import SYSTEM_PROMPT
 
 class PromptBuilder:
-
     def build(self, question: str, retrieved_chunks: list) -> str:
 
         context_parts = []
 
         for i, chunk in enumerate(retrieved_chunks, start=1):
-
             metadata = chunk["metadata"]
 
             arxiv_id = metadata.get("arxiv_id", "Unknown")
