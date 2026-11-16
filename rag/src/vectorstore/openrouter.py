@@ -56,6 +56,7 @@ class ChromaVectorStore:
             metadatas.append(
                 {
                     "article_id": article_id,
+                    "arxiv_id": article_id,
                     "title": chunk.get("title", ""),
                     "source": chunk.get("source", ""),
                     "section": chunk.get("section") or "",

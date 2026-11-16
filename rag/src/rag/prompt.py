@@ -1,14 +1,16 @@
 
+from ...config import SYSTEM_PROMPT
+
 
 class PromptBuilder:
-    def build(self, question: str, retrieved_chunks: list) -> str:
+    def build(self, question: str, retrieved_chunks: list[dict]) -> str:
 
         context_parts = []
 
         for i, chunk in enumerate(retrieved_chunks, start=1):
             metadata = chunk["metadata"]
 
-            arxiv_id = metadata.get("arxiv_id", "Unknown")
+            arxiv_id = metadata.get("arxiv_id") or metadata.get("article_id", "Unknown")
             title = metadata.get("title", "Unknown")
             section = metadata.get("section", "Unknown")
 
@@ -28,7 +30,7 @@ class PromptBuilder:
         context = "\n".join(context_parts)
 
         prompt = f"""
-            {self.SYSTEM_PROMPT}
+            {SYSTEM_PROMPT}
 
             ====================
             CONTEXT

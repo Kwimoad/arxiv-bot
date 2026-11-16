@@ -53,6 +53,15 @@ class OpenRouterEmbeddings(Embeddings):
                 )
                 response.raise_for_status()
                 return [item["embedding"] for item in response.json()["data"]]
+            except requests.exceptions.HTTPError as error:
+                if error.response is not None and error.response.status_code in (401, 403):
+                    raise RuntimeError(
+                        "La clé OPENROUTER_API_KEY est invalide ou expirée. "
+                        "Remplacez-la dans api_keys.env puis redémarrez le serveur."
+                    ) from error
+                wait = 2**attempt
+                print(f"[RETRY] Erreur API ({error}), nouvelle tentative dans {wait}s...")
+                time.sleep(wait)
             except requests.exceptions.RequestException as e:
                 wait = 2**attempt
                 print(f"[RETRY] Erreur API ({e}), nouvelle tentative dans {wait}s...")

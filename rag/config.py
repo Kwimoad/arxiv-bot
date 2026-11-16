@@ -4,7 +4,9 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-load_dotenv()
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+load_dotenv(PROJECT_ROOT / ".env")
+load_dotenv(PROJECT_ROOT / "api_keys.env")
 
 API_URL = "https://export.arxiv.org/api/query"
 
@@ -108,7 +110,11 @@ SECTION_PATTERN = re.compile(
     re.IGNORECASE | re.VERBOSE,
 )
 
-CHROMA_DIR = Path("data/chroma_db")
+CHROMA_DIR = (
+    PROJECT_ROOT / "data/chroma_db/chroma_db"
+    if (PROJECT_ROOT / "data/chroma_db/chroma_db").exists()
+    else PROJECT_ROOT / "data/chroma_db"
+)
 
 COLLECTION_NAME = "arxiv_articles"
 

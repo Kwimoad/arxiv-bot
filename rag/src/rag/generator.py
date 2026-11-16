@@ -31,7 +31,15 @@ class Generator:
 
         response = requests.post(self.url, headers=headers, json=payload, timeout=120)
 
-        response.raise_for_status()
+        try:
+            response.raise_for_status()
+        except requests.exceptions.HTTPError as error:
+            if response.status_code in (401, 403):
+                raise RuntimeError(
+                    "La clé OPENROUTER_API_KEY est invalide ou expirée. "
+                    "Remplacez-la dans api_keys.env puis redémarrez le serveur."
+                ) from error
+            raise
 
         data = response.json()
 

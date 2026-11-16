@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Assistant de recherche scientifique basé sur les articles arXiv.">
+    <title>ArXiv Research Assistant</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="shell">
+      <header class="hero">
+        <p class="eyebrow">ARXIV / RAG</p>
+        <h1>Posez une question à votre bibliothèque scientifique.</h1>
+        <p class="intro">Obtenez une réponse synthétique fondée sur les articles indexés dans votre base arXiv.</p>
+      </header>
+
+      <section class="panel question-panel" aria-labelledby="question-title">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">Recherche</p>
+            <h2 id="question-title">Que voulez-vous comprendre ?</h2>
+          </div>
+          <span class="status"><span class="status-dot"></span> Base prête</span>
+        </div>
+        <form id="question-form">
+          <label for="question">Votre question</label>
+          <textarea id="question" name="question" rows="4" maxlength="2000"
+            placeholder="Ex. Quels sont les principaux résultats sur les modèles multimodaux ?" required></textarea>
+          <div class="form-footer">
+            <span id="char-count">0 / 2000</span>
+            <button type="submit" id="ask-button">
+              <span>Analyser la question</span>
+              <span class="button-arrow" aria-hidden="true">→</span>
+            </button>
+          </div>
+        </form>
+        <p class="error" id="error-message" role="alert" hidden></p>
+      </section>
+
+      <section class="panel answer-panel" id="answer-panel" aria-live="polite" hidden>
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">Résultat</p>
+            <h2>Réponse de l’assistant</h2>
+          </div>
+        </div>
+        <div class="answer" id="answer"></div>
+        <div class="sources" id="sources"></div>
+      </section>
+    </main>
+    <script src="app.js"></script>
+  </body>
+</html>

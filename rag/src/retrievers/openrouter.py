@@ -6,7 +6,9 @@ class Retriever:
         self.collection = collection
         self.embedding_model = embedding_model
 
-    def retrieve(self, query: str, top_k: int = 5):
+    def retrieve(self, query: str, top_k: int = 5) -> list[dict]:
+        if top_k < 1:
+            return []
 
         query_embedding = self.embedding_model.embed_query(query)
 
@@ -16,9 +18,9 @@ class Retriever:
 
         retrieved_chunks = []
 
-        documents = results["documents"][0]
-        metadatas = results["metadatas"][0]
-        distances = results["distances"][0]
+        documents = results.get("documents", [[]])[0]
+        metadatas = results.get("metadatas", [[]])[0]
+        distances = results.get("distances", [[]])[0]
 
         for document, metadata, distance in zip(documents, metadatas, distances):
             retrieved_chunks.append(
